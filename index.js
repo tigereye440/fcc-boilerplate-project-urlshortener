@@ -35,7 +35,7 @@ app.get('/api/hello', function(req, res) {
 
 app.post('/api/shorturl', async (req, res) => {
   const longUrl = req.body.url;
-  const validUrlFormat = /^(https?:\/\/)?(?:www\.)?([^\/\n]+)/i;;
+  const validUrlFormat = /^(https|http:\/\/)(?:www\.)([^\/\n]+)/gmi;
 
   if (!validUrlFormat.test(longUrl)) {
     return res.status(403).json({ error: 'Please enter a valid URL '})
