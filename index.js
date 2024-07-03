@@ -18,7 +18,7 @@ app.use(cors());
 app.use('/public', express.static(`${process.cwd()}/public`));
 
 // MongoDB connection
-mongoose.connect(uri)
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => console.log("Connected to MongoDB"))
     .catch((err) => console.error("Eror connecting to MongoDB: ", err))
 
@@ -35,10 +35,10 @@ app.get('/api/hello', function(req, res) {
 
 app.post('/api/shorturl', async (req, res) => {
   const longUrl = req.body.url;
-  const validUrlFormat = /^(https|http:\/\/)(?:www\.)([^\/\n]+)/gmi;
+  const validUrlFormat = /^([a-zA-Z]+:\/\/)(?:www\.)?([^\/\n]+)/gmi;
 
   if (!validUrlFormat.test(longUrl)) {
-    return res.status(403).json({ error: 'Please enter a valid URL '})
+    return res.json({ error: 'invalid url'})
   }
 
   // Extract hostname for DNS lookup
@@ -47,7 +47,7 @@ app.post('/api/shorturl', async (req, res) => {
 
   dns.lookup(hostname, async(err) => {
     if (err) {
-      console.log(ip)
+
       return res.json({ error: 'Invalid URL' });
     }
 
