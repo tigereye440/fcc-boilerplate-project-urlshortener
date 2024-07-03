@@ -45,9 +45,7 @@ connection.findOneByUrl = async (url) => {
 
 // Find a URL by its shortID
 connection.findOneById = async (shortId) => {
-    console.log('fired')
     try {
-      
         const data = await connection.Url.findOne({ shortId: shortId });
         return data ? data.url : null;
     } catch (err) {
