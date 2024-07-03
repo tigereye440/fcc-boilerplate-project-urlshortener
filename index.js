@@ -70,7 +70,7 @@ app.get('/api/shorturl/:id?', async  (req, res) => {
   const urlId = req.params.id;
 
   try {
-    const decodedId = parseInt(urlId, 62);
+    const decodedId = parseInt(urlId);
     const longUrl = await urls.findOneById(decodedId);
 
     if (longUrl) {
